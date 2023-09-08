@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 from os import system, name
 from unidecode import unidecode
 
+tentativas = 5
+
 def clear() -> None:
     if name == 'nt':
         _ = system('cls')
@@ -22,7 +24,7 @@ def getPalavra() -> str:
     divPalavra = divs[1]
     palavraAleatoria = divPalavra.text.strip()
     palavraAleatoria = palavraAleatoria.split(" ")[0]
-    return [palavraAleatoria, unidecode(palavraAleatoria)]
+    return [palavraAleatoria.lower(), unidecode(palavraAleatoria).lower()]
 
 def respostaEmBranco(tamanhoPalavra: int) -> str:
     respostaVazia = ''
@@ -49,24 +51,31 @@ def printMenu(resposta: str, tentativas: int) -> None:
 palavra = getPalavra()
 palavraCopia = palavra[1]
 tamanhoPalavra = len(palavra[0])
-tentativas = 5
 resposta = respostaEmBranco(tamanhoPalavra)
 
 while tentativas > 0:
     if resposta == palavraCopia:
         print("Parabens! Voce venceu o jogo :)\nPalavra: %s" %(palavra[0]))
-        break
+        exit(0)
 
     printMenu(respostaEmBranco(tamanhoPalavra), tentativas) if resposta == "" else printMenu(filterResposta(palavra[0], resposta), tentativas)
     letraUnfilter = input('\tDigite uma letra: ')
     if letraUnfilter != "": 
-        letra = letraUnfilter[0]
+        letra = letraUnfilter[0].lower()
     else:
         continue
+    
+    posicoes = []
+
     if letra in palavra[1]:
-        posicao = palavra[1].find(letra)
-        resposta = resposta[:posicao] + letra + resposta[posicao+1:]
-        palavra[1] = palavra[1][:posicao] + '_' + palavra[1][posicao+1:]
+        for i, j in enumerate(palavra[1]):
+            if j == letra:
+                posicoes.append(i)
+        for posicao in posicoes:
+            resposta = resposta[:posicao] + letra + resposta[posicao+1:]
+            palavra[1] = palavra[1][:posicao] + '_' + palavra[1][posicao+1:]
         continue
 
     tentativas -= 1
+
+print("Voce perdeu :(\nPalavra: %s" %(palavra[0]))
