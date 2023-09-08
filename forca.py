@@ -48,7 +48,7 @@ def printMenu(resposta: str, tentativas: int) -> None:
     print('\tTentativas: %i' %(tentativas))
 
 
-palavra = getPalavra()
+palavra = ["fração", unidecode("fração")]
 palavraCopia = palavra[1]
 tamanhoPalavra = len(palavra[0])
 resposta = respostaEmBranco(tamanhoPalavra)
@@ -74,8 +74,7 @@ while tentativas > 0:
         for posicao in posicoes:
             resposta = resposta[:posicao] + letra + resposta[posicao+1:]
             palavra[1] = palavra[1][:posicao] + '_' + palavra[1][posicao+1:]
-        continue
-
-    tentativas -= 1
+    else:
+        tentativas -= 1
 
 print("Voce perdeu :(\nPalavra: %s" %(palavra[0]))
