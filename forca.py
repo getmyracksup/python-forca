@@ -12,7 +12,7 @@ def clear() -> None:
     else:
         _ = system('clear')
 
-def getPalavra() -> str:
+def getPalavra() -> [str, str]:
     reqPalavra = requests.get('https://www.palabrasaleatorias.com/palavras-aleatorias.php?fs=1&fs2=0&Submit=Nova+palavra')
     soup = BeautifulSoup(reqPalavra.text, 'html.parser')
 
