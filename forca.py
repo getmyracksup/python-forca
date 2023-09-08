@@ -46,7 +46,7 @@ def printMenu(resposta: str, tentativas: int) -> None:
     print('\tTentativas: %i' %(tentativas))
 
 
-palavra = ["fração", unidecode("fração")]
+palavra = getPalavra()
 palavraCopia = palavra[1]
 tamanhoPalavra = len(palavra[0])
 tentativas = 5
